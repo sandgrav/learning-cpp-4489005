@@ -25,10 +25,50 @@ int main(){
     std::cin >> id;
 
     // Calculate the GPA for the selected student.
-    // Write your code here
+    float totalPoints = 0.0f, totalCredits = 0.0f;
+
+    for (Grade& grd : grades){
+        if (grd.get_student_id() == id){
+            float points = 0.0f;
+            switch (grd.get_grade())
+            {
+            case 'A':
+                points += 4;
+                break;
+            case 'B':
+                points += 3;
+                break;
+            case 'C':
+                points += 2;
+                break;
+            case 'D':
+                points += 1;
+                break;
+            case 'E':
+                points += 0;
+                break;            
+            default:
+                break;
+            }
+
+            float credits = 0.0f;
+            for (Course& crs : courses){
+                if (crs.get_id() == grd.get_course_id())
+                    credits = crs.get_credits();
+            }
+
+            totalPoints += points * credits;
+            totalCredits += credits;
+        }
+    }
+
+    GPA = totalPoints / totalCredits;
 
     std::string student_str;
-    student_str = students[0].get_name(); // Change this to the selected student's name
+    for (Student& stud : students){
+        if (stud.get_id() == id)
+            student_str = stud.get_name();
+    }
 
     std::cout << "The GPA for " << student_str << " is " << GPA << std::endl;
     
