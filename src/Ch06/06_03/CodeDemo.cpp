@@ -4,6 +4,7 @@
 
 #include <iostream>
 #include <vector>
+#include <fstream>
 #include "records.h"
 
 void initialize(StudentRecords&);
@@ -24,18 +25,57 @@ int main(){
 }
 
 void initialize(StudentRecords& srec){
-    srec.add_student(1, "George P. Burdell");
-    srec.add_student(2, "Nancy Rhodes");
+    std::ifstream instream;
+    std::string str;
+    int sid, cid, credits;
+    std::string course_name;
+    char grade;
 
-    srec.add_course(1, "Algebra", 5);
-    srec.add_course(2, "Physics", 4);
-    srec.add_course(3, "English", 3);
-    srec.add_course(4, "Economics", 4);
+    instream.open("students.txt");
+    if(instream.fail()){
+        std::cout << "File students.txt not found!" << std::endl;
+    }
+    else{
+        while(!instream.eof()){
+            getline(instream, str);
+            sid = stoi(str);
+            getline(instream, str);
+            srec.add_student(sid, str);
+        }
+        instream.close();
+    }
 
-    srec.add_grade(1, 1, 'B');
-    srec.add_grade(1, 2, 'A');
-    srec.add_grade(1, 3, 'C');
-    srec.add_grade(2, 1, 'A'); 
-    srec.add_grade(2, 2, 'A');
-    srec.add_grade(2, 4, 'B');
+    instream.open("courses.txt");
+    if(instream.fail()){
+        std::cout << "File courses.txt not found!" << std::endl;
+    }
+    else{
+        while(!instream.eof()){
+            getline(instream, str);
+            cid = stoi(str);
+            getline(instream, str);
+            course_name = str;
+            getline(instream, str);
+            credits = stoi(str);
+            srec.add_course(cid, course_name, credits);
+        }
+        instream.close();
+    }
+
+    instream.open("grades.txt");
+    if(instream.fail()){
+        std::cout << "File grades.txt not found!" << std::endl;
+    }
+    else{
+        while(!instream.eof()){
+            getline(instream, str);
+            sid = stoi(str);
+            getline(instream, str);
+            cid = stoi(str);
+            getline(instream, str);
+            grade = str[0];
+            srec.add_grade(sid, cid, grade);
+        }
+        instream.close();
+    }
 }
