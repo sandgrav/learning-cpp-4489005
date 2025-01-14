@@ -15,12 +15,9 @@ int main(){
     
     initialize(SR);
 
-    std::cout << "Enter a student ID: " << std::flush;
-    std::cin >> id;
-
-    SR.report_card(id);
+    SR.report_card("reports.txt");
     
-    std::cout << std::endl << std::endl;
+    std::cout << "Finished reportcards!" << std::endl << std::endl;
     return (0);
 }
 
